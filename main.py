@@ -167,63 +167,6 @@ class Victory(Entity):
         Entity.__init__(self, fPositionX, fPositionY, bGravity)
         self.color = (255, 255, 0)
 
-################################################################################
-# FONCTION GENERAL DU PROGRAMME #
-################################################################################
-
-# Fonction qui appelle la fonction render() de chaque entite
-# La fonction permet ainsi l'affichage de chaque entite sur l'ecran
-def renderEntities(oScreen):
-    for oEntity in aEntities:
-        oEntity.render(oScreen)
-
-# Fonction qui affichage la matrice aMap.
-def renderMap(oScreen, aMap):
-    # On parcoure la matrice
-    for fPositionY, iValueX in enumerate(aMap):
-        for fPositionX, iValueY in enumerate(aMap[fPositionY]):
-            # On cree un rectangle blanc de la dimension de nos cellule
-            oRect = pygame.Rect(fPositionX * CELL_WIDTH, fPositionY * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT)
-            aColor = (255,255,255) # Couleur par defaut de la map, blanc
-            # Si la position sur la matrice correspond a un mur, on met la couleur noir
-            if aMap[fPositionY][fPositionX] == 1:
-                aColor = (0,0,0)
-            # Affichage du rectangle sur l'ecran
-            pygame.draw.rect(oScreen, aColor, oRect)
-
-# Fonction de gestion des evenements (touche sur le clavier et la souris)
-def eventHandler(oPlayer):
-    for event in pygame.event.get():
-        # Si la croix de la fenetre est declenche, on stop le jeu
-        if event.type == pygame.QUIT:
-            pygame.quit()
-            sys.exit(0)
-
-        # Si une touche est presse
-        elif event.type == pygame.KEYDOWN:
-            # Si l etat de victoire n est toujours pas a true
-            if oPlayer.bVictory == False:
-                # Touche Q, on rajoute une velocity vers la gauche a l'objet player
-                if event.key == pygame.K_q:
-                    oPlayer.fVelocityX = -2
-                # Touche D, on rajoute une velocity vers la droite a l'objet player
-                if event.key == pygame.K_d:
-                    oPlayer.fVelocityX = 2
-                # Touche Z, on rajoute une velocity vers le haut a l'objet player
-                # Si le player va deja vers le haut, on empeche le double saut
-                if event.key == pygame.K_z and oPlayer.fVelocityY > 0:
-                    oPlayer.fVelocityY = -10
-            # Touche ECHAP, on stop le jeu
-            if event.key == pygame.K_ESCAPE:
-                pygame.quit()
-                sys.exit(0)
-
-# Fonction qui declenche l update des entites
-# Permet le deplacement des entites et la gestion des collisions
-def updateEntities(aMap):
-    for oEntity in aEntities:
-        oEntity.update(aMap)
-
 # Fonction principal qui fait tourner le jeu
 def run():
     pygame.init()
@@ -251,42 +194,43 @@ def run():
         component.Screen(oScreen = oScreen),
     )
 
+    #Map
+    # Creation de la matrice map, chaque 1 correspond a un mur, le 0 est un espace libre
+    oWorld.create_entity(
+        component.Map(
+            aMap = [
+                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1],
+                [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                [1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1],
+                [0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0],
+                [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+            ],
+            aRender = {
+                0: (255, 255, 255),
+                1: (0, 0, 0)
+            }
+
+        ),
+    )
+
     # Creation des instances, un player et une victoire
     oMinion = Player(40, 300)
     oBanane = Victory(500, 30, False)
     aEntities.append(oMinion)
     aEntities.append(oBanane)
 
-    # Creation de la matrice map, chaque 1 correspond a un mur, le 0 est un espace libre
-    aMap =[
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1],
-        [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1],
-        [0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0],
-        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]]
 
     # Tant que le jeu n'est pas quitte on cree un cycle
     while True:
 
         oWorld.process()
-
-        # On ecoute le clavier et la souris de l'utilisateur
-        #eventHandler(oMinion)
-        # On "nettoie" l'ecran en le remettant tout noir
-        # On affiche la carte
-        #renderMap(oScreen, aMap)
-        # On affiche les entites
-        #renderEntities(oScreen)
-        # On met a jour les entites (les deplacementes ne seront donc visible que le cycle suivant)
-        #updateEntities(aMap)
-        # On affiche le nouvel ecran
 
         oClock.tick(FPS)
 

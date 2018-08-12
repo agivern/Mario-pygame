@@ -1,7 +1,7 @@
 TODO
 	Mario :
 		- Affichage
-		Marcher
+		- Marcher
 		Sauter
 		Collision mur
 		Collision sol/plafond
