@@ -1,4 +1,4 @@
 class Size:
-    def __init__(self, iWidth=0.0, iHeight=0.0):
-        self.iWidth = iWidth
-        self.iHeight = iHeight
+    def __init__(self, fWidth=0.0, fHeight=0.0):
+        self.fWidth = fWidth
+        self.fHeight = fHeight

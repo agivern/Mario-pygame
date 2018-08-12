@@ -40,41 +40,6 @@ class Entity:
     def _collideEntity  (self, oEntity):
         pass
 
-    # Fonction pour gerer la collision d'une entite lors d'un deplacement avec la carte
-    def _colisionMap(self, aMap):
-        # Deplacement vertical
-        # Position de la map en collision
-        iPositionMapX = int(self.fPositionX) // CELL_WIDTH
-        iPositionMapY = int(self.fPositionY + self.fVelocityY) // CELL_HEIGHT
-
-        # Si l'entite tombe, on regarde la map en dessous de lui
-        if self.fVelocityY >= 0:
-            iPositionMapY = iPositionMapY + 1
-
-        # Si la map contient un mur, la vitesse sur l'axe vertical est mis a 0
-        if aMap[iPositionMapY][iPositionMapX] == 1:
-            self.fVelocityY = 0
-        # Verification de collision sur le bloc a cote lorsque l'entite est sur deux blocs de la map
-        elif (iPositionMapX + 1) < len(aMap[iPositionMapY]) and self.fPositionX % CELL_WIDTH > 0 and aMap[iPositionMapY][iPositionMapX + 1] == 1:
-            self.fVelocityY = 0
-
-        # Deplacement horizontal
-        if self.fVelocityX != 0:
-            # Position de la map en collision
-            iPositionMapY = int(self.fPositionY) // CELL_HEIGHT
-            iPositionMapX = int(self.fPositionX + self.fVelocityX) // CELL_WIDTH
-
-            # Si l'entite va vers la droite, on regarde la map a sa droite
-            if self.fVelocityX > 0 :
-                iPositionMapX = iPositionMapX + 1
-
-            # Si la map contient un mur, la vitesse sur l'axe horizontal est mis a 0
-            if aMap[iPositionMapY][iPositionMapX] == 1:
-                self.fVelocityX = 0
-            # Verification de collision sur le bloc a cote lorsque l'entite touche deux blocs de la map
-            elif iPositionMapY + 1 < len(aMap) and self.fPositionY % CELL_HEIGHT > 0 and aMap[iPositionMapY + 1][iPositionMapX] == 1 :
-                self.fVelocityX = 0
-
     # Fonction pour verfier et declencher la gestion de collision entre l'entite et les autres entite de la map
     def _collideEntities(self):
         aEntitiesRect = list()
@@ -177,15 +142,16 @@ def run():
 
     oWorld = esper.World()
 
-    oWorld.add_processor(processor.InputProcessor(), priority=1)
+    oWorld.add_processor(processor.InputProcessor(), priority=4)
+    oWorld.add_processor(processor.CollisionProcessor(), priority=3)
     oWorld.add_processor(processor.MovementProcessor(), priority=2)
-    oWorld.add_processor(processor.RenderingProcessor(oScreen = oScreen), priority=3)
+    oWorld.add_processor(processor.RenderingProcessor(oScreen = oScreen), priority=1)
 
     # Player
     oWorld.create_entity(
         component.Velocity(x = 0, y = 0),
         component.Position(x = 40, y = 300),
-        component.Size(iWidth = 32, iHeight = 32),
+        component.Size(fWidth = 32, fHeight = 32),
         component.Player()
     )
 
