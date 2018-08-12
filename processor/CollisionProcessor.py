@@ -17,22 +17,47 @@ class CollisionProcessor(esper.Processor):
             iMapY = int(oPosition.y + oVelocity.y) // Constant.CELL_HEIGHT
 
             iLength = int(oSize.fWidth) // Constant.CELL_WIDTH
+            if (oPosition.x + oSize.fWidth) % Constant.CELL_WIDTH == 0:
+                iLength -= 1
             iHeight = int(oSize.fHeight) // Constant.CELL_HEIGHT
+            if (oPosition.y + oVelocity.y + oSize.fHeight) % Constant.CELL_HEIGHT == 0:
+                iHeight -= 1
 
             if oVelocity.y >= 0:
                 iMapY = iMapY + iHeight
 
-            for i in (0, iLength, 1):
+            for i in (0, iLength):
                 if oMap.aMap[iMapY][iMapX + i] == 1:
-                    oVelocity.y = 0
+                    if oVelocity.y > 0 :
+                        fRegulation = round((oPosition.y + oVelocity.y) % Constant.CELL_HEIGHT, 1)
+                        oVelocity.y -= fRegulation
+                        break
+                    else:
+                        fRegulation = Constant.CELL_HEIGHT - round((oPosition.y + oVelocity.y + oSize.fHeight) % Constant.CELL_HEIGHT, 1)
+                        oVelocity.y += fRegulation
+                        break
 
             if oVelocity.x != 0:
-                iMapX = int(oPosition.x) // Constant.CELL_WIDTH
-                iMapY = int(oPosition.y + oVelocity.y) // Constant.CELL_HEIGHT
+                iMapX = int(oPosition.x + oVelocity.x) // Constant.CELL_WIDTH
+                iMapY = int(oPosition.y) // Constant.CELL_HEIGHT
 
-                if oVelocity.x > 0 :
+                iLength = int(oSize.fWidth) // Constant.CELL_WIDTH
+                if (oPosition.x + oVelocity.x + oSize.fWidth) % Constant.CELL_WIDTH == 0:
+                    iLength -= 1
+                iHeight = int(oSize.fHeight) // Constant.CELL_HEIGHT
+                if (oPosition.y + oVelocity.y + oSize.fHeight) % Constant.CELL_HEIGHT == 0:
+                    iHeight -= 1
+
+                if oVelocity.x > 0:
                     iMapX = iMapX + iLength
 
-                for i in (0, iHeight, 1):
-                    if oMap.aMap[iMapY + i ][iMapX] == 1:
-                        oVelocity.x = 0
+                for i in (0, iHeight):
+                    if oMap.aMap[iMapY + i][iMapX] == 1:
+                        if oVelocity.x > 0 :
+                            fRegulation = round((oPosition.x + oVelocity.x + oSize.fWidth) % Constant.CELL_WIDTH, 1)
+                            oVelocity.x -= fRegulation
+                            break
+                        else:
+                            fRegulation = Constant.CELL_WIDTH - round((oPosition.x + oVelocity.x) % Constant.CELL_WIDTH, 1)
+                            oVelocity.x += fRegulation
+                            break
