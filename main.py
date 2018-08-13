@@ -142,7 +142,8 @@ def run():
 
     oWorld = esper.World()
 
-    oWorld.add_processor(processor.InputProcessor(), priority=4)
+    oWorld.add_processor(processor.InputProcessor(), priority=5)
+    oWorld.add_processor(processor.GravityProcessor(), priority=4)
     oWorld.add_processor(processor.CollisionProcessor(), priority=3)
     oWorld.add_processor(processor.MovementProcessor(), priority=2)
     oWorld.add_processor(processor.RenderingProcessor(oScreen = oScreen), priority=1)
@@ -152,7 +153,27 @@ def run():
         component.Velocity(x = 0, y = 0),
         component.Position(x = 40, y = 300),
         component.Size(fWidth = 32, fHeight = 32),
-        component.Player()
+        component.Player(),
+        component.Gravity(iForce = 2)
+    )
+
+    # Coins
+    oWorld.create_entity(
+        component.Position(x = 400, y = 30),
+        component.Size(fWidth = 16, fHeight = 16),
+        component.Coin(iValue = 1)
+    )
+
+    oWorld.create_entity(
+        component.Position(x = 432, y = 30),
+        component.Size(fWidth = 16, fHeight = 16),
+        component.Coin(iValue = 1)
+    )
+
+    oWorld.create_entity(
+        component.Position(x = 464, y = 30),
+        component.Size(fWidth = 16, fHeight = 16),
+        component.Coin(iValue = 1)
     )
 
     #Screen
@@ -174,8 +195,8 @@ def run():
                 [1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0],
                 [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
                 [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1],
-                [0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0],
+                [1,0,0,0,0,0,1,0,0,1,1,0,0,0,0,0,0,0,0,0],
+                [1,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0],
                 [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
             ],
             aRender = {

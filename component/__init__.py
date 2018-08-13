@@ -5,3 +5,4 @@ from .Size import Size
 from .Player import Player
 from .Map import Map
 from .Gravity import Gravity
+from .Coin import Coin

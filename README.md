@@ -3,8 +3,8 @@ TODO
 		- Affichage
 		- Marcher
 		Sauter
-		Collision mur
-		Collision sol/plafond
+		- Collision mur
+		- Collision sol/plafond
 		Perdre de la vie (3 coeurs)
 		Ramasser des pieces
 		Revenir a la vie au checkpoint
@@ -22,7 +22,7 @@ TODO
 		Blesser mario si il le touche sur le cote
 		Meurt si mario tombe dessus
 	Piece :
-		Affichage
+		- Affichage
 		Ramasser par Mario
 	Camera :
 		Suit Mario

@@ -11,4 +11,3 @@ class MovementProcessor(esper.Processor):
             oPosition.y += oVelocity.y
 
             oVelocity.x = 0
-            oVelocity.y = 0

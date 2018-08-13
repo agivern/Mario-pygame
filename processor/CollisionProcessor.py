@@ -19,6 +19,7 @@ class CollisionProcessor(esper.Processor):
             iLength = int(oSize.fWidth) // Constant.CELL_WIDTH
             if (oPosition.x + oSize.fWidth) % Constant.CELL_WIDTH == 0:
                 iLength -= 1
+
             iHeight = int(oSize.fHeight) // Constant.CELL_HEIGHT
             if (oPosition.y + oVelocity.y + oSize.fHeight) % Constant.CELL_HEIGHT == 0:
                 iHeight -= 1
@@ -39,11 +40,12 @@ class CollisionProcessor(esper.Processor):
 
             if oVelocity.x != 0:
                 iMapX = int(oPosition.x + oVelocity.x) // Constant.CELL_WIDTH
-                iMapY = int(oPosition.y) // Constant.CELL_HEIGHT
+                iMapY = int(oPosition.y + oVelocity.y) // Constant.CELL_HEIGHT
 
                 iLength = int(oSize.fWidth) // Constant.CELL_WIDTH
                 if (oPosition.x + oVelocity.x + oSize.fWidth) % Constant.CELL_WIDTH == 0:
                     iLength -= 1
+
                 iHeight = int(oSize.fHeight) // Constant.CELL_HEIGHT
                 if (oPosition.y + oVelocity.y + oSize.fHeight) % Constant.CELL_HEIGHT == 0:
                     iHeight -= 1
