@@ -2,13 +2,14 @@ TODO
 	Mario :
 		- Affichage
 		- Marcher
-		Sauter
+		- Sauter
 		- Collision mur
 		- Collision sol/plafond
 		Perdre de la vie (3 coeurs)
 		Ramasser des pieces
 		Revenir a la vie au checkpoint
 		Activer les checkpoints
+		Ameliorer saut et marche (effet acceleration)
 	Checkpoint :
 		Affichage
 		Activer/desactiver
@@ -28,3 +29,8 @@ TODO
 		Suit Mario
 		Se bloque en hauteur
 		Se bloque en largeur
+	Son:
+		Ajout musique
+		Ajout effet (ramassage de piece)
+		Ajout effet (monstre tue)
+		Ajout effet (Touche par un monstre)

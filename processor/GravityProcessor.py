@@ -9,4 +9,4 @@ class GravityProcessor(esper.Processor):
 
     def process(self):
         for oEntity, (oVelocity, oGravity) in self.world.get_components(component.Velocity, component.Gravity):
-            oVelocity.y = oVelocity.y + oGravity.iForce
+            oVelocity.y = oVelocity.y + oGravity.fForce

@@ -3,6 +3,7 @@ import sys
 import esper
 import processor
 import component
+import time
 
 # Variables statiques du jeu
 FPS = 60 # Nombre de cycle du jeu par seconde
@@ -138,7 +139,7 @@ def run():
     oScreen = pygame.display.set_mode(RESOLUTION)
     pygame.display.set_caption('mario')
     oClock = pygame.time.Clock()
-    pygame.key.set_repeat(1, 1)
+    #pygame.key.set_repeat(1, 1)
 
     oWorld = esper.World()
 
@@ -151,10 +152,10 @@ def run():
     # Player
     oWorld.create_entity(
         component.Velocity(x = 0, y = 0),
-        component.Position(x = 40, y = 300),
+        component.Position(x = 550, y = 214),
         component.Size(fWidth = 32, fHeight = 32),
         component.Player(),
-        component.Gravity(iForce = 2)
+        component.Gravity(fForce = 0.75)
     )
 
     # Coins

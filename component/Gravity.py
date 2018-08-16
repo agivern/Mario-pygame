@@ -1,3 +1,3 @@
 class Gravity:
-    def __init__(self, iForce = 0):
-        self.iForce = iForce
+    def __init__(self, fForce = 0.0):
+        self.fForce = fForce
